@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'products'
 ]
 
 MIDDLEWARE = [
@@ -122,6 +121,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STRIPE_PUBLIC_KEY = ""
-STRIPE_SECRET_KEY = ""
+STRIPE_PUBLIC_KEY = "pk_test_51LMWyQL3fwEVJEfhWfB70JvRvZJLTfzPHrm9Vj6l9QLKQlt9Y87bf8Gnf15R6XZG1rkKAFUsS8TpYxRvCk1UP5l100KFUo3073"
+STRIPE_SECRET_KEY = "sk_test_51LMWyQL3fwEVJEfh2pelzUg17nxcxeOqL6Vd48jdthB6vssRJ7rpvowpp3Xcy4Pr4EYGtPmuR2Mr6j2ut0GyNF7C00BNv7OHOr"
 STRIPE_WEBHOOK_SECRET = ""
+
