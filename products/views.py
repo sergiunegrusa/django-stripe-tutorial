@@ -10,7 +10,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 # Create your views here.
 
 class ProductLandingPageView(TemplateView):
-    template_name = 'landing.html'
+    template_name = "landing.html"
 
     def get_context_data(self, **kwargs):
         product = Product.objects.get(name="Test Product")
@@ -21,28 +21,41 @@ class ProductLandingPageView(TemplateView):
             "product": product,
             "prices": prices
         })
-        return context
+        return context  
 
 
 class CreateCheckoutSessionView(View):
     def post(self, request, *args, **kwargs):
+        product_id = self.kwargs["pk"]
+        product = Product.objects.get(id=product_id)
+        print(product)
+        print()
+        prices = Price.objects.filter(id=1)
+        
         YOUR_DOMAIN = "http://127.0.0.1:8000"
         checkout_session = stripe.checkout.Session.create(
-            payment_method_types = ['card'],
+            payment_method_types=['card'],
             line_items=[
                 {
-                    # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-                    'price': 'price_1LMXkWL3fwEVJEfhTcrd3fsG',
+                    'price_data': {
+                        'currency': 'usd',
+                        'unit_amount': 3000,
+                        'product_data': {
+                            'name': product.name,
+                            # 'images': ['https://i.imgur.com/EHyR2nP.png'],
+                        },
+                    },
                     'quantity': 1,
                 },
             ],
+            metadata={
+                "product_id": product.id
+            },
             mode='payment',
             success_url=YOUR_DOMAIN + '/success/',
             cancel_url=YOUR_DOMAIN + '/cancel/',
-            
         )
-        
-        return redirect(checkout_session.url)
+        return redirect(checkout_session.url, code=303)
 
 
 class SuccessView(TemplateView):
